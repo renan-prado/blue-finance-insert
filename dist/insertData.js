@@ -1,4 +1,4 @@
-console.log('Started...');
+console.log('Started...\n\n');
 
 var firebase = require('firebase');
 var axios = require('axios');
@@ -17,10 +17,14 @@ function saveDataFirebase(){
         console.log('GET: ' + getNow());
 
         let now = getNowFirebase()
-
         finance.date = now;
 
-        saveFinance(now.date + '/' + now.hour , finance);
+        getPETR4Data(petr4 => {
+
+            finance.others = {petr4};
+            saveFinance(now.date + '/' + now.hour , finance);
+
+        });
     });
 }
 
@@ -70,4 +74,20 @@ function getFinancesData(callback){
     axios
         .get('https://api.hgbrasil.com/finance?key=a9d0104b')
         .then(finances => callback(finances.data.results));
+}
+
+function getPETR4Data(callback){
+
+    axios
+        .get('https://api.hgbrasil.com/finance/stock_price?key=a9d0104b&symbol=PETR4')
+        .then(finances => {
+
+            const {region, name, change_percent} = finances.data.results.PETR4;
+
+            callback({
+                location: region,
+                name: name,
+                variation: change_percent
+            })
+        });
 }
