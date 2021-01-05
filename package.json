@@ -17,7 +17,7 @@
   },
   "homepage": "https://github.com/renan-prado/blue-finance-insert#readme",
   "dependencies": {
-    "axios": "^0.19.0",
+    "axios": "^0.21.1",
     "express": "^4.17.1",
     "firebase": "^7.0.0"
   }
